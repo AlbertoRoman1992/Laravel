@@ -19,7 +19,7 @@ Route::get('/about', function () {
     return view('about');
 });
 
-Route::get('/proyectos/{id?}', function ($id = null) {
+/*Route::get('/proyectos/{id?}', function ($id = null) {
     if (isset($id)) {
         $proyecto = App\Proyecto::findOrFail($id);
 
@@ -31,7 +31,7 @@ Route::get('/proyectos/{id?}', function ($id = null) {
     }
     else
         return App\Proyecto::all();
-});
+});*/
 
 Route::get('/perfil', function () {
     $user = Auth::user();
@@ -46,3 +46,4 @@ Route::get('/perfil', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index');
+Route::resource('/proyectos', 'ProyectosController');
