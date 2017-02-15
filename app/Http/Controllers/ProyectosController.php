@@ -14,10 +14,14 @@ class ProyectosController extends Controller
     public function index()
     {
         $user = \Auth::user();
+        $proyectos = $user->proyectos;
 
-        foreach ($user->proyectos as $p) {
-            echo "<li>" . $p->nombre . "</li>";
-        }
+        return view('proyectos.index', compact('proyectos', 'user'));
+//        return $user->proyects;
+
+//        foreach ($user->proyectos as $p) {
+//            echo "<li>" . $p->nombre . "</li>";
+//        }
     }
 
     /**
@@ -27,7 +31,7 @@ class ProyectosController extends Controller
      */
     public function create()
     {
-        return "Formulario para crear un proyecto";
+        return view('proyectos.create');
     }
 
     /**
@@ -38,7 +42,19 @@ class ProyectosController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $proyecto = new \App\Proyecto();
+
+        $proyecto->nombre = $request->input('nombre');
+        $proyecto->configuracion = $request->input('configuracion');
+        $proyecto->validado = 0;
+        $proyecto->cliente_id = \Auth::user()->id;
+        $proyecto->tecnico_id = 0;
+        $proyecto->comercial_id = 0;
+        $proyecto->precio = 0;
+
+        $proyecto->save();
+
+        return redirect()->route('proyectos.index');
     }
 
     /**
